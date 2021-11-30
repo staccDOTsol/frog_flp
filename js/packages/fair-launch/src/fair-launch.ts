@@ -9,14 +9,13 @@ import {
 } from './utils';
 
 export const FAIR_LAUNCH_PROGRAM = new anchor.web3.PublicKey(
-  'faircnAB9k59Y4TXmLabBULeuTLgV7TkGMGNkjnA15j',
+  '21YsaGceMLwCCi2H9K6W2QxJkLjQiFLxEpPJMPjwaNfn',
 );
 
 export interface FairLaunchAccount {
   id: anchor.web3.PublicKey;
   program: anchor.Program;
   state: FairLaunchState;
-
   ticket: {
     pubkey: anchor.web3.PublicKey;
     bump: number;
@@ -51,10 +50,11 @@ export interface AntiRugSetting {
 export interface FairLaunchState {
   authority: anchor.web3.PublicKey;
   bump: number;
-
+  winner: anchor.web3.PublicKey;
   currentMedian: anchor.BN;
   currentEligibleHolders: anchor.BN;
   data: {
+    currentWinner: anchor.web3.PublicKey;
     antiRugSetting?: AntiRugSetting;
     fee: anchor.BN;
     numberOfTokens: anchor.BN;
@@ -223,6 +223,7 @@ export const punchTicket = async (
         treasury: fairLaunch.state.treasury,
         systemProgram: anchor.web3.SystemProgram.programId,
         clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+        currentWinner: fairLaunch.state.data.currentWinner,
       },
       __private: { logAccounts: true },
       instructions: instructions.length > 0 ? instructions : undefined,
@@ -536,6 +537,7 @@ export const purchaseTicket = async (
         treasury: fairLaunch.state.treasury,
         systemProgram: anchor.web3.SystemProgram.programId,
         clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+        currentWinner: fairLaunch.state.data.currentWinner,
       },
       __private: { logAccounts: true },
       remainingAccounts: [
@@ -554,6 +556,7 @@ export const purchaseTicket = async (
   }
   try {
     console.log('Amount', amountLamports);
+    console.log(fairLaunch.state);
     await fairLaunch.program.rpc.purchaseTicket(
       bump,
       new anchor.BN(amountLamports),
@@ -568,6 +571,7 @@ export const purchaseTicket = async (
           systemProgram: anchor.web3.SystemProgram.programId,
           rent: anchor.web3.SYSVAR_RENT_PUBKEY,
           clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+          currentWinner: fairLaunch.state.data.currentWinner,
         },
         //__private: { logAccounts: true },
         remainingAccounts,

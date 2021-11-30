@@ -27,7 +27,7 @@ export const TOKEN_PROGRAM_ID = new PublicKey(
   'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
 );
 export const FAIR_LAUNCH_PROGRAM_ID = new PublicKey(
-  'faircnAB9k59Y4TXmLabBULeuTLgV7TkGMGNkjnA15j',
+  '21YsaGceMLwCCi2H9K6W2QxJkLjQiFLxEpPJMPjwaNfn',
 );
 export const AUCTION_HOUSE_PROGRAM_ID = new PublicKey(
   'hausS13jsjafwWwGqZTUQRmWyvyxn9EQpqMwV1PBBmk',
@@ -39,10 +39,10 @@ export const WRAPPED_SOL_MINT = new PublicKey(
   'So11111111111111111111111111111111111111112',
 );
 export const GUMDROP_DISTRIBUTOR_ID = new PublicKey(
-  'gdrpGjVffourzkdDRrQmySw4aTHr8a3xmQzzxSwFD1a'
+  'gdrpGjVffourzkdDRrQmySw4aTHr8a3xmQzzxSwFD1a',
 );
 export const GUMDROP_TEMPORAL_SIGNER = new PublicKey(
-  'MSv9H2sMceAzccBganUXwGq3GXgqYAstmZAbFDZYbAV'
+  'MSv9H2sMceAzccBganUXwGq3GXgqYAstmZAbFDZYbAV',
 );
 
 export const CONFIG_ARRAY_START =

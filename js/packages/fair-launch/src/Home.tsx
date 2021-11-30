@@ -505,30 +505,7 @@ const Home = (props: HomeProps) => {
     }
   };
   const onRefundTicket = async () => {
-    if (!anchorWallet) {
-      return;
-    }
-
-    console.log('refund');
-    try {
-      setIsMinting(true);
-      await purchaseTicket(0, anchorWallet, fairLaunch);
-      setIsMinting(false);
-      setAlertState({
-        open: true,
-        message:
-          'Congratulations! Funds withdrawn. This is an irreversible action.',
-        severity: 'success',
-      });
-    } catch (e) {
-      console.log(e);
-      setIsMinting(false);
-      setAlertState({
-        open: true,
-        message: 'Something went wrong.',
-        severity: 'error',
-      });
-    }
+    return;
   };
 
   const onPunchTicket = async () => {
@@ -847,19 +824,7 @@ const Home = (props: HomeProps) => {
                       </MintButton>
                     )}
 
-                    {!isWinner(fairLaunch) && (
-                      <MintButton
-                        onClick={onRefundTicket}
-                        variant="contained"
-                        disabled={
-                          isMinting ||
-                          fairLaunch?.ticket.data === undefined ||
-                          fairLaunch?.ticket.data?.state.withdrawn !== undefined
-                        }
-                      >
-                        {isMinting ? <CircularProgress /> : 'Withdraw'}
-                      </MintButton>
-                    )}
+                   
                   </>
                 )}
 
@@ -928,42 +893,9 @@ const Home = (props: HomeProps) => {
               >
                 How this raffle works
               </Link>
-              {fairLaunch?.ticket.data && (
-                <Link
-                  component="button"
-                  variant="body2"
-                  color="textSecondary"
-                  align="right"
-                  onClick={() => {
-                    if (
-                      !fairLaunch ||
-                      phase === Phase.Lottery ||
-                      isWinner(fairLaunch) ||
-                      fairLaunchBalance > 0
-                    ) {
-                      setRefundExplainerOpen(true);
-                    } else {
-                      onRefundTicket();
-                    }
-                  }}
-                >
-                  Withdraw funds
-                </Link>
-              )}
+             
             </Grid>
-            <Dialog
-              open={refundExplainerOpen}
-              onClose={() => setRefundExplainerOpen(false)}
-              PaperProps={{
-                style: { backgroundColor: '#222933', borderRadius: 6 },
-              }}
-            >
-              <MuiDialogContent style={{ padding: 24 }}>
-                During raffle phases, or if you are a winner, or if this website
-                is not configured to be a fair launch but simply a candy
-                machine, refunds are disallowed.
-              </MuiDialogContent>
-            </Dialog>
+            
             <Dialog
               open={antiRugPolicyOpen}
               onClose={() => {

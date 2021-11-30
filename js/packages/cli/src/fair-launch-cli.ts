@@ -217,6 +217,9 @@ program
           tokenProgram: TOKEN_PROGRAM_ID,
           systemProgram: anchor.web3.SystemProgram.programId,
           rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+          currentWiner: walletKeyPair.publicKey,
+
+          currentWinner: walletKeyPair.publicKey,
         },
         remainingAccounts,
         signers: [],
