@@ -8,7 +8,7 @@ import {
 } from '@solana/web3.js';
 
 export const FAIR_LAUNCH_PROGRAM_ID = new anchor.web3.PublicKey(
-  '21YsaGceMLwCCi2H9K6W2QxJkLjQiFLxEpPJMPjwaNfn',
+  'faircnAB9k59Y4TXmLabBULeuTLgV7TkGMGNkjnA15j',
 );
 
 export const toDate = (value?: anchor.BN) => {

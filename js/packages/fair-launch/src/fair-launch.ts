@@ -9,7 +9,7 @@ import {
 } from './utils';
 
 export const FAIR_LAUNCH_PROGRAM = new anchor.web3.PublicKey(
-  '21YsaGceMLwCCi2H9K6W2QxJkLjQiFLxEpPJMPjwaNfn',
+  'faircnAB9k59Y4TXmLabBULeuTLgV7TkGMGNkjnA15j',
 );
 
 export interface FairLaunchAccount {

@@ -505,7 +505,30 @@ const Home = (props: HomeProps) => {
     }
   };
   const onRefundTicket = async () => {
-    return;
+    if (!anchorWallet) {
+      return;
+    }
+
+    console.log('refund');
+    try {
+      setIsMinting(true);
+      await purchaseTicket(0, anchorWallet, fairLaunch);
+      setIsMinting(false);
+      setAlertState({
+        open: true,
+        message:
+          'Congratulations! Funds withdrawn. This is an irreversible action.',
+        severity: 'success',
+      });
+    } catch (e) {
+      console.log(e);
+      setIsMinting(false);
+      setAlertState({
+        open: true,
+        message: 'Something went wrong.',
+        severity: 'error',
+      });
+    }
   };
 
   const onPunchTicket = async () => {
@@ -566,6 +589,12 @@ const Home = (props: HomeProps) => {
           style={{ padding: 24, backgroundColor: '#151A1F', borderRadius: 6 }}
         >
           <Grid container justifyContent="center" direction="column">
+            <Typography>
+            You are bidding on the opportunity to be in the running 
+            for one of four Duke NFTs - these super NFTs will add 1% to
+            your ENTIRE TEAM's vote, whichever you choose. (either frien or unfrie)
+            These benefits accumulate with other modifiers.
+            </Typography>
             {phase === Phase.Phase0 && (
               <Header
                 phaseName={'Phase 0'}
@@ -661,7 +690,9 @@ const Home = (props: HomeProps) => {
                   </>
                 ) : [Phase.Phase0, Phase.Phase1].includes(phase) ? (
                   <Typography>
-                    You haven't entered this raffle yet. <br />
+                    If you want to win, the only surefire way of ensuring success
+                    is to make the average price so high that there are less people 
+                    eligible for the raffle. Enter a bid that outprices people. <br />
                     {fairLaunch?.state?.data?.fee && (
                       <span>
                         <b>
@@ -706,7 +737,7 @@ const Home = (props: HomeProps) => {
                   ) && (
                     <div style={{ paddingTop: '15px' }}>
                       <Alert severity="warning">
-                        Your bid is currently below the highest bid and will not be
+                        Your bid is currently below the median and will not be
                         eligible for the raffle.
                       </Alert>
                     </div>
@@ -720,7 +751,7 @@ const Home = (props: HomeProps) => {
                   ) && (
                     <div style={{ paddingTop: '15px' }}>
                       <Alert severity="error">
-                        Your bid was below the highst bid and was not included in
+                        Your bid was below the median and was not included in
                         the raffle. You may click <em>Withdraw</em> when the
                         raffle ends or you will be automatically issued one when
                         the Fair Launch authority withdraws from the treasury.
@@ -813,7 +844,19 @@ const Home = (props: HomeProps) => {
                       </MintButton>
                     )}
 
-                   
+                    {!isWinner(fairLaunch) && (
+                      <MintButton
+                        onClick={onRefundTicket}
+                        variant="contained"
+                        disabled={
+                          isMinting ||
+                          fairLaunch?.ticket.data === undefined ||
+                          fairLaunch?.ticket.data?.state.withdrawn !== undefined
+                        }
+                      >
+                        {isMinting ? <CircularProgress /> : 'Withdraw'}
+                      </MintButton>
+                    )}
                   </>
                 )}
 
@@ -882,9 +925,42 @@ const Home = (props: HomeProps) => {
               >
                 How this raffle works
               </Link>
-             
+              {fairLaunch?.ticket.data && (
+                <Link
+                  component="button"
+                  variant="body2"
+                  color="textSecondary"
+                  align="right"
+                  onClick={() => {
+                    if (
+                      !fairLaunch ||
+                      phase === Phase.Lottery ||
+                      isWinner(fairLaunch) ||
+                      fairLaunchBalance > 0
+                    ) {
+                      setRefundExplainerOpen(true);
+                    } else {
+                      onRefundTicket();
+                    }
+                  }}
+                >
+                  Withdraw funds
+                </Link>
+              )}
             </Grid>
-            
+            <Dialog
+              open={refundExplainerOpen}
+              onClose={() => setRefundExplainerOpen(false)}
+              PaperProps={{
+                style: { backgroundColor: '#222933', borderRadius: 6 },
+              }}
+            >
+              <MuiDialogContent style={{ padding: 24 }}>
+                During raffle phases, or if you are a winner, or if this website
+                is not configured to be a fair launch but simply a candy
+                machine, refunds are disallowed.
+              </MuiDialogContent>
+            </Dialog>
             <Dialog
               open={antiRugPolicyOpen}
               onClose={() => {
@@ -1014,8 +1090,12 @@ const Home = (props: HomeProps) => {
                   Phase 1 - Set the fair price:
                 </Typography>
                 <Typography gutterBottom color="textSecondary">
-                  Enter a bid in the range provided by the artist. The highest of
-                  all bids will be the "fair" price of the raffle ticket.{' '}
+                  You are trying to make sure that your bid ensures you
+                  get a ticket, and there's 100% chance of that. Until we have 
+                  four bids, this means the obvious play is to bid as little as
+                  possible - but if there are more than 4 bids (or 40x) then 
+                  you'll need to update your srategy.
+                  {' '}
                   {fairLaunch?.state?.data?.fee && (
                     <span>
                       <b>
