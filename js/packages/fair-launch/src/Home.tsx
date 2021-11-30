@@ -559,17 +559,6 @@ const Home = (props: HomeProps) => {
             justifyContent: 'flex-end',
           }}
         >
-          <Link
-            component="button"
-            variant="body2"
-            color="textSecondary"
-            align="right"
-            onClick={() => {
-              setAnitRugPolicyOpen(true);
-            }}
-          >
-            Anti-Rug Policy
-          </Link>
         </div>
       </Container>
       <Container maxWidth="xs" style={{ position: 'relative' }}>
@@ -717,7 +706,7 @@ const Home = (props: HomeProps) => {
                   ) && (
                     <div style={{ paddingTop: '15px' }}>
                       <Alert severity="warning">
-                        Your bid is currently below the median and will not be
+                        Your bid is currently below the highest bid and will not be
                         eligible for the raffle.
                       </Alert>
                     </div>
@@ -731,7 +720,7 @@ const Home = (props: HomeProps) => {
                   ) && (
                     <div style={{ paddingTop: '15px' }}>
                       <Alert severity="error">
-                        Your bid was below the median and was not included in
+                        Your bid was below the highst bid and was not included in
                         the raffle. You may click <em>Withdraw</em> when the
                         raffle ends or you will be automatically issued one when
                         the Fair Launch authority withdraws from the treasury.
@@ -1025,7 +1014,7 @@ const Home = (props: HomeProps) => {
                   Phase 1 - Set the fair price:
                 </Typography>
                 <Typography gutterBottom color="textSecondary">
-                  Enter a bid in the range provided by the artist. The median of
+                  Enter a bid in the range provided by the artist. The highest of
                   all bids will be the "fair" price of the raffle ticket.{' '}
                   {fairLaunch?.state?.data?.fee && (
                     <span>

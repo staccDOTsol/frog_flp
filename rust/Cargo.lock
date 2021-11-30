@@ -55,6 +55,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6b2d54853319fd101b8dd81de382bcbf3e03410a64d8928bbee85a3e7dcde483"
 
 [[package]]
+name = "always-win-flp"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "anchor-spl",
+ "arrayref",
+ "metaplex-token-metadata 0.0.1",
+ "spl-associated-token-account",
+ "spl-token",
+]
+
+[[package]]
 name = "anchor-attribute-access-control"
 version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
