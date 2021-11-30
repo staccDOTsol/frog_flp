@@ -592,7 +592,7 @@ const Home = (props: HomeProps) => {
             <Typography>
             You are bidding on the opportunity to be in the running 
             for one of four Duke NFTs - these super NFTs will add 1% to
-            your ENTIRE TEAM's vote, whichever you choose. (either frien or unfrie)
+            your ENTIRE TEAM's vote, whichever you choose. (either frien or unfrien)
             These benefits accumulate with other modifiers.
             </Typography>
             {phase === Phase.Phase0 && (
